@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+// chat.component.ts
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../services/websocket.service';
@@ -10,12 +11,15 @@ import { WebsocketService } from '../services/websocket.service';
   styleUrls: ['./chat.component.scss'],
   imports: [CommonModule, FormsModule]
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
   user: string = '';
   message: string = '';
   messages: { user: string, content: string }[] = [];
 
-  constructor(private websocketService: WebsocketService) {
+  constructor(private websocketService: WebsocketService) { }
+
+  ngOnInit(): void {
+    // S'abonner aux nouveaux messages
     this.websocketService.getMessages().subscribe((msg: { user: string, content: string }) => {
       this.messages.push(msg);
     });
